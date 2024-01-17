@@ -8,7 +8,7 @@
       let
         pkgs = import nixpkgs { inherit system; };
         my-name = "netcow";
-        my-buildInputs = with pkgs; [ cowsay netcat ];
+        my-buildInputs = with pkgs; [ cowsay netcat tini ];
         my-script = (pkgs.writeScriptBin my-name (builtins.readFile ./moo.sh)).overrideAttrs(old: {
           buildCommand = "${old.buildCommand}\n patchShebangs $out";
         });

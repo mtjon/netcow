@@ -5,7 +5,7 @@ WORKDIR /tmp/build
 
 RUN nix \
     --extra-experimental-features "nix-command flakes" \
-    --option filter-syscall false \
+    --option filter-syscalls false \
     build
 
 RUN mkdir /tmp/nix-store-closure
@@ -20,4 +20,5 @@ WORKDIR /app
 COPY --from=builder /tmp/nix-store-closure /nix/store
 COPY --from=builder /tmp/build/result /app
 
-ENTRYPOINT [ "/app/bin/netcow" ]
+ENTRYPOINT [ "/app/bin/tini", "--" ]
+CMD [ "/app/bin/netcow" ]
